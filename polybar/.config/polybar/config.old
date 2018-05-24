@@ -1,0 +1,258 @@
+;=====================================================
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   The README contains alot of information
+;
+;=====================================================
+
+[colors]
+background = #ff073642
+background-alt = #2d7385
+foreground = #bbb
+foreground-alt = #bbb
+primary = #018e92
+secondary = #2d7385
+alert = #bd2c40
+
+[bar/kyle]
+bottom = false
+monitor = ${env:MONITOR:}
+width = 100%
+height = 30
+fixed-center = false
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 3
+line-color = #f00
+
+border-size = 0
+border-color = #00000000
+
+padding-left = 0
+padding-right = 2
+
+module-margin-left = 1
+module-margin-right = 2
+
+font-0 = "Fira Code Retina:pixelsize=10:bold"
+font-1 = "Font Awesome"
+
+modules-left = i3
+modules-center = xwindow
+modules-right = music backlight wlan vpn volume xkeyboard battery temperature date
+
+tray-position = right
+tray-padding = 2
+
+[module/backlight]
+type = internal/backlight
+card = intel_backlight
+format =  <label> <bar>
+format-underline = "#ffb52a"
+bar-width = 10
+bar-indicator = >
+bar-fill = >
+bar-empty = -
+
+[module/xwindow]
+type = internal/xwindow
+label = %title%
+label-maxlen = 75
+
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+
+; format = <label-layout> <label-indicator>
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+format-prefix-underline = ${colors.secondary}
+
+label-layout = %layout%
+label-layout-underline = ${colors.secondary}
+
+label-indicator-padding = 2
+label-indicator-margin = 1
+label-indicator-background = ${colors.secondary}
+label-indicator-underline = ${colors.secondary}
+
+[module/i3]
+type = internal/i3
+pin-workspaces = true
+; strip-wsnumbers = true
+format = <label-state> <label-mode>
+; index-sort = true
+wrapping-scroll = false
+
+label-mode-padding = 2
+label-mode-foreground = #000
+label-mode-background = ${colors.primary}
+
+; focused = Active workspace on focused monitor
+label-focused = %name%
+label-focused-background = ${colors.background-alt}
+label-focused-underline= ${colors.primary}
+label-focused-padding = 2
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %name%
+label-unfocused-padding = 2
+
+; visible = Active workspace on unfocused monitor
+label-visible = %name%
+label-visible-background = ${self.label-focused-background}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = %name%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+[module/wlan]
+type = internal/network
+interface = wlp3s0
+interval = 3.0
+
+format-connected = <ramp-signal> <label-connected>
+format-connected-underline = #9f78e1
+label-connected = %local_ip%
+
+format-disconnected = <label-disconnected>
+format-disconnected-underline = ${self.format-connected-underline}
+label-disconnected = %ifname% disconnected
+label-disconnected-foreground = ${colors.foreground-alt}
+
+ramp-signal-0 = 
+ramp-signal-foreground = ${colors.foreground-alt}
+
+[module/vpn]
+type = custom/script
+exec = ifconfig tun0 | awk '{print $2}' | head -n 2 | tail -n 1
+exec-if = ls /sys/class/net/tun0
+interval = 5
+
+format-underline = #55aa55
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+label-connect = %local_ip%
+
+[module/date]
+type = internal/date
+interval = 5
+
+date = %m/%d
+date-alt = " %Y-%m-%d"
+
+time = %I:%M%p
+time-alt = %H:%M:%S
+
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = #0a6cf5
+
+label = %date% %time%
+
+[module/volume]
+type = internal/alsa
+
+format-underline = #ffa500
+format-volume = <label-volume> <bar-volume>
+label-volume = VOL
+label-volume-foreground = ${root.foreground}
+
+format-muted-prefix = " "
+format-muted-foreground = ${colors.foreground-alt}
+label-muted = sound muted
+format-muted-underline = #ffa500
+format-volume-underline = #ffa500
+
+bar-volume-width = 10
+bar-volume-foreground-0 = #55aa55
+bar-volume-foreground-1 = #55aa55
+bar-volume-foreground-2 = #55aa55
+bar-volume-foreground-3 = #55aa55
+bar-volume-foreground-4 = #55aa55
+bar-volume-foreground-5 = #f5a70a
+bar-volume-foreground-6 = #ff5555
+bar-volume-gradient = false
+bar-volume-indicator = ||
+bar-volume-indicator-font = 2
+bar-volume-fill = ─
+bar-volume-fill-font = 2
+bar-volume-empty = ─
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground-alt}
+
+[module/battery]
+type = internal/battery
+battery = BAT1
+adapter = ACAD
+full-at = 82
+
+format-charging = <animation-charging> <label-charging>
+format-charging-underline = #ffb52a
+
+format-discharging = <ramp-capacity> <label-discharging>
+format-discharging-underline = ${self.format-charging-underline}
+
+format-full = <label-full>
+format-full-prefix = " "
+format-full-prefix-foreground = ${colors.foreground-alt}
+format-full-underline = ${self.format-charging-underline}
+
+ramp-capacity-0 = ${self.animation-charging-0}
+ramp-capacity-1 = ${self.animation-charging-1}
+ramp-capacity-2 = ${self.animation-charging-2}
+ramp-capacity-3 = ${self.animation-charging-3}
+ramp-capacity-4 = ${self.animation-charging-4}
+ramp-capacity-foreground = ${colors.foreground-alt}
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-foreground = ${colors.foreground-alt}
+animation-charging-framerate = 750
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+
+format = <ramp> <label>
+format-underline = #f50a4d
+format-warn = <ramp> <label-warn>
+format-warn-underline = ${self.format-underline}
+
+label = %temperature%
+label-warn = %temperature%
+label-warn-foreground = ${colors.secondary}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 
+ramp-foreground = ${colors.foreground-alt}
+
+[module/music]
+type = custom/script
+exec = if [[ "$(playerctl status)" = "Playing" ]]; then playerctl metadata xesam:artist; echo -n " - "; playerctl metadata xesam:title; else echo -n "▶"; fi
+exec-if = [[ "$(playerctl status)" = "Playing" || "$(playerctl status)" = "Paused" ]] && echo "0"
+interval = 1
+format = <label>
+
+[settings]
+screenchange-reload = true
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+; vim:ft=dosini
