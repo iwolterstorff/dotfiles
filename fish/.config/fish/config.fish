@@ -14,5 +14,6 @@ set -gx XDG_CONFIG_HOME "$HOME/.config"
 #end
 
 alias vim nvim
+alias byebye "sudo shutdown now"
 
 cat $HOME/.config/wpg/sequences &
