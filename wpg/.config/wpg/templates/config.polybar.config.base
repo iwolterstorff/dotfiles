@@ -50,6 +50,8 @@ modules-center = i3
 modules-right = xwindow date
 module-margin = 1
 
+tray-position = right
+
 ;---------------------------------------
 ; Left modules
 ;---------------------------------------
