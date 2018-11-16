@@ -1,3 +1,5 @@
 [user]
 	name = Ian Wolterstorff
 	email = wolterstorff.i@husky.neu.edu
+[core]
+	autocrlf = input

@@ -10,7 +10,7 @@ set -gx XDG_CONFIG_HOME "$HOME/.config"
 
 #if test -z "$DISPLAY"
 	set -gx JAVA_HOME /usr/lib/jvm/default
-	set -gx PATH $HOME/bin $PATH
+	set -gx PATH /home/ian/.gem/ruby/2.5.0/bin $HOME/bin $PATH
 #end
 
 alias vim nvim
