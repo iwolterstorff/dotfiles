@@ -1,4 +1,4 @@
 #!/bin/bash
-magick $HOME/.logo2.png -fill "#<COLOR0>" -fuzz 50% -opaque "#000000" -background "#<COLOR8>" -gravity center -extent 1920x1080 -flatten $HOME/.logo-bg.png
+convert -size 1920x1080 xc:#<COLOR8> $HOME/.logo-bg.png
 
 feh --bg-scale $HOME/.logo-bg.png &
